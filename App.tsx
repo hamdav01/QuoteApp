@@ -1,17 +1,24 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainComponent from './src/main';
+import InfoModal from './src/infoModal';
+
+const Stack = createNativeStackNavigator();
 
 const App: React.VFC = () => {
   return (
-    <SafeAreaView>
-      <ScrollView contentInsetAdjustmentBehavior="automatic">
-        <MainComponent />
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={MainComponent} />
+        <Stack.Screen
+          name="InfoModal"
+          component={InfoModal}
+          options={{ presentation: 'transparentModal', headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;
