@@ -1,71 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
   TextInput,
   SafeAreaView,
   Dimensions,
-  TouchableOpacity,
-  Text,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import Button from './button';
 
 interface Props {
   navigation: any;
 }
 
-const Main: React.VFC<Props> = ({ navigation }) => {
-  // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState<any>();
+const LoginScreen: React.VFC<Props> = ({ navigation }) => {
   const [userName, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>();
-
-  // Handle user state changes
-  function onAuthStateChanged(user: any) {
-    console.log(user);
-    setUser(user);
-    if (initializing) setInitializing(false);
-  }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const signIn = () => {
+    setLoading(true);
     auth()
-      .signInWithEmailAndPassword(
-        userName ?? '',
-        password ?? '', //  'janes.doe@example.com',
-        //  'SuperSecretPassword!',
-      )
+      .signInWithEmailAndPassword(userName ?? '', password ?? '')
       .then(() => {
-        console.log('User account created & signed in!');
+        navigation.replace('Quote');
       })
       .catch(error => {
+        setLoading(false);
         let errorMessage = 'Not set';
         if (error.code === 'auth/email-already-in-use') {
           errorMessage = 'That email address is already in use!';
         }
-
         if (error.code === 'auth/invalid-email') {
           errorMessage = 'That email address is invalid!';
         }
-
         navigation.navigate('InfoModal', {
           headerText: 'Error ',
           bodyText: errorMessage,
         });
       });
   };
-
-  const signOut = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
-  };
-
+  const disabledButton = !userName || !password || loading;
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.root}>
@@ -83,12 +58,7 @@ const Main: React.VFC<Props> = ({ navigation }) => {
           value={password}
           placeholder="password"
         />
-        <TouchableOpacity
-          disabled={!userName || !password}
-          style={styles.button}
-          onPress={signIn}>
-          <Text>Sign in</Text>
-        </TouchableOpacity>
+        <Button disabled={disabledButton} text="Sign in" onPress={signIn} />
       </View>
     </SafeAreaView>
   );
@@ -105,13 +75,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: 250,
     borderRadius: 8,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
   },
 });
 
-export default Main;
+export default LoginScreen;

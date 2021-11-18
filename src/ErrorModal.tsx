@@ -1,27 +1,15 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Dimensions,
-  Button,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import Button from './button';
 
 const InfoModal: React.VFC<any> = ({ route, navigation }) => {
-  console.log('route: ', route);
   const { bodyText, headerText } = route.params;
-
   return (
     <View style={styles.root}>
       <View style={styles.box}>
         <Text style={styles.header}>{headerText}</Text>
         <Text style={styles.body}>{bodyText}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.pop()}>
-          <Text>Ok</Text>
-        </TouchableOpacity>
+        <Button text="Ok" onPress={() => navigation.pop()} />
       </View>
     </View>
   );
@@ -31,6 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 12,
     borderRadius: 8,
+    width: '90%',
   },
   header: {
     fontSize: 22,
@@ -41,12 +30,6 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     marginBottom: 24,
-  },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#FF00FF',
-    padding: 10,
-    borderRadius: 8,
   },
   root: {
     flex: 1,

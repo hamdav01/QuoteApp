@@ -1195,7 +1195,7 @@
 
 "@react-native-firebase/app@^13.0.1":
   version "13.0.1"
-  resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-13.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-13.0.1.tgz#2aa69b28db379f965c8df8199620f05a692527d1"
   integrity sha512-ZURaagmBy97oI5it9IiZkX+0Fpfbv6nc5CKs9ISShxEmDqgTbGXcD8o6k0uDxtG9nbi0ft2dsWgKqXm6YI1o9w==
   dependencies:
     "@expo/config-plugins" "^4.0.3"
@@ -1206,6 +1206,11 @@
   version "13.0.1"
   resolved "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-13.0.1.tgz"
   integrity sha512-oZ0KqAjjbqT6It7/zAVIbQu+M4t1noKkAgZ76G12GHHo1mtVCjBTGDpej+J2oqbaEDDDuBAxq8lAhRxf8T+R4g==
+
+"@react-native-firebase/firestore@^13.0.1":
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-13.0.1.tgz#76463fadb4ac63aa0127a5ae3957bb68108fe3b6"
+  integrity sha512-kOkoQvdYU5W9iAZX9SAN7aoNvZpZZ3CywzoQer0uHp2gFwm02TCeOeEGOVhsbuh+D4uRdD3k5My/zV97OWTlFw==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
