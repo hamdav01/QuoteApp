@@ -1,11 +1,19 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
-import Button from './button';
+import Button from '../components/Button';
+import { RootStackParamList } from '../navigation/HomeStack';
 
-const InfoModal: React.VFC<any> = ({ route, navigation }) => {
+export type StackParameters = {
+  readonly bodyText: string;
+  readonly headerText: string;
+};
+type Props = NativeStackScreenProps<RootStackParamList, 'InfoModal'>;
+
+const InfoModal: React.VFC<Props> = ({ route, navigation }) => {
   const { bodyText, headerText } = route.params;
   return (
-    <View style={styles.root}>
+    <View style={{ ...styles.root, height: Dimensions.get('screen').height }}>
       <View style={styles.box}>
         <Text style={styles.header}>{headerText}</Text>
         <Text style={styles.body}>{bodyText}</Text>
@@ -15,6 +23,11 @@ const InfoModal: React.VFC<any> = ({ route, navigation }) => {
   );
 };
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   box: {
     backgroundColor: 'white',
     padding: 12,
@@ -30,12 +43,6 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 16,
     marginBottom: 24,
-  },
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: Dimensions.get('screen').height,
   },
 });
 
