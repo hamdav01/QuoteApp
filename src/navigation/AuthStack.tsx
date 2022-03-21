@@ -1,10 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import QuoteScreen from '../screens/QuoteScreen';
-import LogoutButton from '../components/LogoutButton';
+import AuthTab from './AuthTab';
 
 export type RootStackParamList = {
-  QuoteScreen: undefined;
+  Home: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -12,9 +11,9 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = () => {
   return (
     <Stack.Navigator
-      initialRouteName="QuoteScreen"
-      screenOptions={{ headerRight: () => <LogoutButton /> }}>
-      <Stack.Screen name="QuoteScreen" component={QuoteScreen} />
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={AuthTab} />
     </Stack.Navigator>
   );
 };

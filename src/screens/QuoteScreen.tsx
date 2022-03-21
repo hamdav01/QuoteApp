@@ -1,19 +1,43 @@
-import React from 'react';
-import { View, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import { addQuote, getQuotes, QuoteType } from '../api/Quote';
+import Header from '../components/Header';
+import LoadingComponent from '../components/Loading';
+import { AuthContext } from '../context/auth/AuthProvider';
 
 const QuoteScreen: React.VFC = () => {
+  const [quote, setQuote] = useState<QuoteType>();
+  const { user } = useContext(AuthContext);
+  useEffect(() => {
+    (async () => {
+      const newQuote = await getQuotes(user.uid);
+      setQuote(newQuote);
+    })();
+  }, []);
+  if (quote === undefined) {
+    return <LoadingComponent />;
+  } else if (quote === null) {
+  }
   return (
-    <SafeAreaView style={styles.root}>
-      <View style={styles.root}></View>
+    <SafeAreaView
+      style={{ ...styles.root, backgroundColor: quote.backgroundColor }}>
+      <Header
+        style={styles.header}
+        color={quote.textColor}
+        text={quote.text}
+        align="center"
+      />
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
   root: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: Dimensions.get('screen').height,
+  },
+  header: {
+    marginHorizontal: 12,
   },
 });
 

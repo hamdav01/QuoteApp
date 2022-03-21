@@ -31,7 +31,7 @@ const LoginScreen: React.VFC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [error, setError] = useState<string>();
-  const { login } = useContext(AuthContext);
+  const { login, googleLogin } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
   const signIn = async () => {
@@ -43,6 +43,7 @@ const LoginScreen: React.VFC<Props> = ({ navigation }) => {
         if (error instanceof Error) {
           setError(error.message);
         }
+      } finally {
         setLoading(false);
       }
     }
@@ -79,6 +80,22 @@ const LoginScreen: React.VFC<Props> = ({ navigation }) => {
         styleButtonText={styles.noAccountButton}
         text="Don't have an account ?"
         onPress={() => navigation.navigate('CreateAccount')}
+      />
+      <Button
+        loading={loading}
+        text="Google Sign-In"
+        onPress={async () => {
+          setLoading(true);
+          try {
+            await googleLogin();
+          } catch (error) {
+            if (error instanceof Error) {
+              setError(error.message);
+            }
+          } finally {
+            setLoading(false);
+          }
+        }}
       />
     </ScrollView>
   );

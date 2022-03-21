@@ -20,14 +20,12 @@ const Button: React.VFC<Props> = ({
   loading = false,
 }) => {
   const buttonColor = disabled ? styles.disabledButton : styles.enabledButton;
+  const pressDisabled = disabled || loading;
   return (
     <TouchableOpacity
+      disabled={pressDisabled}
       style={{ ...styles.button, ...buttonColor, ...styleButton }}
-      onPress={() => {
-        if (!disabled && !loading) {
-          onPress();
-        }
-      }}>
+      onPress={onPress}>
       {loading ? (
         <LoadingComponent color="#E8E8E8" />
       ) : (
