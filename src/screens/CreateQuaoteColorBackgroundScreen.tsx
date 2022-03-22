@@ -14,10 +14,10 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
   route,
   navigation,
 }) => {
-  const [r, setR] = useState<number | number[]>(360);
-  const [b, setB] = useState<number | number[]>(360);
-  const [g, setG] = useState<number | number[]>(360);
-  const [a, setA] = useState<number | number[]>(1);
+  const [r, setR] = useState<number>(360);
+  const [b, setB] = useState<number>(360);
+  const [g, setG] = useState<number>(360);
+  const [a, setA] = useState<number>(1);
 
   const onDone = async () => {
     navigation.navigate('CreateQuoteColor', {
@@ -28,13 +28,20 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
   return (
     <SafeAreaView
       edges={['left', 'right']}
-      style={[styles.root, { backgroundColor: `rgba(${r},${g},${b},${a})` }]}>
+      style={[
+        styles.root,
+        {
+          backgroundColor: `rgba(${r.toFixed(1)},${g.toFixed(1)},${b.toFixed(
+            1,
+          )},${a.toFixed(1)})`,
+        },
+      ]}>
       <View style={styles.container}>
         <Body style={styles.text} text="Red" />
         <Slider
           containerStyle={styles.slider}
           value={r}
-          onValueChange={value => setR(value)}
+          onValueChange={value => setR(value as number)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -42,7 +49,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={b}
-          onValueChange={setB}
+          onValueChange={value => setB(value as number)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -50,7 +57,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={g}
-          onValueChange={setG}
+          onValueChange={value => setG(value as number)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -58,7 +65,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={a}
-          onValueChange={setA}
+          onValueChange={value => setA(value as number)}
           maximumValue={1}
           minimumValue={0}
         />

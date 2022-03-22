@@ -1,6 +1,6 @@
-import firestore, { firebase } from '@react-native-firebase/firestore';
-import QuoteCreatedScreen from '../screens/QuoteCreatedScreen';
+import firestore from '@react-native-firebase/firestore';
 import { getRandomInt } from '../utils/Random';
+import { getTodaysDate } from '../utils/Date';
 
 interface RawQuoteType {
   backgroundColor: string;
@@ -11,7 +11,7 @@ export interface QuoteType extends RawQuoteType {
   id: string;
 }
 
-export const getQuotes = async (id: string) => {
+export const getRandomQuote = async (id: string) => {
   const quotesRawData = await firestore()
     .collection('Users')
     .doc(id)
@@ -28,12 +28,29 @@ export const getQuotes = async (id: string) => {
   return quotes[index];
 };
 
-export const setTodayQuote = async (id: string, quote: QuoteType) => {
-  // return firestore()
-  //   .collection('Users')
-  //   .doc(id)
-  //   .collection('Quotes')
-  //   .add(quote);
+export const getTodayQuote = async (id: string): Promise<QuoteType> => {
+  const todaysDate = getTodaysDate();
+  const rawTodaysQuotes = await firestore()
+    .collection('Users')
+    .doc(id)
+    .collection('Quotes')
+    .where('date', '==', todaysDate)
+    .get();
+  const todaysQuote = rawTodaysQuotes.docs[0];
+  if (todaysQuote !== undefined) {
+    return {
+      id: todaysQuote.id,
+      ...(todaysQuote.data() as RawQuoteType),
+    };
+  }
+  const quote = await getRandomQuote(id);
+  await firestore()
+    .collection('Users')
+    .doc(id)
+    .collection('Quotes')
+    .doc(quote.id)
+    .update({ date: todaysDate });
+  return quote;
 };
 
 export const addQuote = async (id: string, quote: RawQuoteType) => {

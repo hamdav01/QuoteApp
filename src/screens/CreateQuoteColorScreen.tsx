@@ -16,9 +16,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'CreateQuoteColor'>;
 const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [r, setR] = useState<number | number[]>(0);
-  const [b, setB] = useState<number | number[]>(0);
-  const [g, setG] = useState<number | number[]>(0);
+  const [r, setR] = useState<number>(0);
+  const [b, setB] = useState<number>(0);
+  const [g, setG] = useState<number>(0);
 
   const onDone = async () => {
     if (user?.uid) {
@@ -26,7 +26,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         setLoading(true);
         await addQuote(user.uid, {
           text: route.params.quoteText,
-          textColor: `rgb(${r},${g},${b})`,
+          textColor: `rgb(${r.toFixed(1)},${g.toFixed(1)},${b.toFixed(1)})`,
           backgroundColor: route.params.backgroundColor,
         });
         navigation.navigate('QuoteCreated');
@@ -49,7 +49,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={r}
-          onValueChange={value => setR(value)}
+          onValueChange={value => setR(value as number)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -57,7 +57,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={b}
-          onValueChange={setB}
+          onValueChange={value => setB(value as number)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -65,7 +65,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={g}
-          onValueChange={setG}
+          onValueChange={value => setG(value as number)}
           maximumValue={360}
           minimumValue={0}
         />

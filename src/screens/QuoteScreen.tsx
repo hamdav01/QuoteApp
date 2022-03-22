@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { addQuote, getQuotes, QuoteType } from '../api/Quote';
+import { getTodayQuote, QuoteType } from '../api/Quote';
 import Header from '../components/Header';
 import LoadingComponent from '../components/Loading';
 import { AuthContext } from '../context/auth/AuthProvider';
@@ -10,7 +10,7 @@ const QuoteScreen: React.VFC = () => {
   const { user } = useContext(AuthContext);
   useEffect(() => {
     (async () => {
-      const newQuote = await getQuotes(user.uid);
+      const newQuote = await getTodayQuote(user.uid);
       setQuote(newQuote);
     })();
   }, []);
