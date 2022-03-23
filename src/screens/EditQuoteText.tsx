@@ -3,21 +3,23 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, TextInput } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { updateQuote } from '../api/Quote';
 import Body from '../components/Body';
 import Button from '../components/Button';
 import { AuthContext } from '../context/auth/AuthProvider';
 import { RootStackParamList } from '../navigation/QuoteOptionsStack';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CreateQuote'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'EditQuoteText'>;
 
-const CreateQuoteScreen: React.VFC<Props> = ({ navigation }) => {
+const EditQuoteTextScreen: React.VFC<Props> = ({ navigation, route }) => {
   const { user } = useContext(AuthContext);
-  const [quoteText, setQuoteText] = useState('');
+  const [quoteText, setQuoteText] = useState(route.params.quoteText);
 
-  const onNext = () => {
+  const onNext = async () => {
     if (user?.uid) {
-      navigation.navigate('CreateQuoteColorBackground', { quoteText });
       try {
+        await updateQuote(user.uid, route.params.quoteId, quoteText);
+        navigation.pop();
       } catch (err) {
         console.log(err);
       }
@@ -32,7 +34,7 @@ const CreateQuoteScreen: React.VFC<Props> = ({ navigation }) => {
         style={styles.input}
         onChangeText={setQuoteText}
         value={quoteText}
-        placeholder="Enter quote text"
+        placeholder={route.params.quoteText}
       />
       <Button
         text="Done"
@@ -66,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateQuoteScreen;
+export default EditQuoteTextScreen;

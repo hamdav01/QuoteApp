@@ -11,7 +11,6 @@ import SetttingsScreen from '../screens/SettingsScreen';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import QuoteScreen from '../screens/QuoteScreen';
-import CreateQuoteScreen from '../screens/CreateQuoteScreen';
 import QuoteOptionsNavigator from './QuoteOptionsStack';
 
 export type AuthTabNavigationProp<T extends keyof RootTabParamList> =

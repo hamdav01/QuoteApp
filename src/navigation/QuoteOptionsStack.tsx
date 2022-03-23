@@ -6,6 +6,7 @@ import CreateQuoteBackgroundScreen from '../screens/CreateQuaoteColorBackgroundS
 import QuoteCreatedScreen from '../screens/QuoteCreatedScreen';
 import QuoteOptionsScreen from '../screens/QuoteOptions';
 import QuoteLibraryScreen from '../screens/QuoteLibraryScreen';
+import EditQuoteTextScreen from '../screens/EditQuoteText';
 
 export type RootStackParamList = {
   CreateQuote: undefined;
@@ -14,6 +15,7 @@ export type RootStackParamList = {
   QuoteCreated: undefined;
   QuoteOptionsSelect: undefined;
   QuoteLibrary: undefined;
+  EditQuoteText: { quoteText: string; quoteId: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,6 +35,7 @@ const QuoteOptionsNavigator = () => {
       />
       <Stack.Screen name="QuoteCreated" component={QuoteCreatedScreen} />
       <Stack.Screen name="QuoteLibrary" component={QuoteLibraryScreen} />
+      <Stack.Screen name="EditQuoteText" component={EditQuoteTextScreen} />
     </Stack.Navigator>
   );
 };

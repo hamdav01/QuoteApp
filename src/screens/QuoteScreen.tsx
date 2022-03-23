@@ -6,7 +6,7 @@ import LoadingComponent from '../components/Loading';
 import { AuthContext } from '../context/auth/AuthProvider';
 
 const QuoteScreen: React.VFC = () => {
-  const [quote, setQuote] = useState<QuoteType>();
+  const [quote, setQuote] = useState<QuoteType | null>();
   const { user } = useContext(AuthContext);
   useEffect(() => {
     (async () => {
@@ -17,6 +17,15 @@ const QuoteScreen: React.VFC = () => {
   if (quote === undefined) {
     return <LoadingComponent />;
   } else if (quote === null) {
+    return (
+      <SafeAreaView style={styles.root}>
+        <Header
+          style={styles.header}
+          text="You have no quotes, create some"
+          align="center"
+        />
+      </SafeAreaView>
+    );
   }
   return (
     <SafeAreaView

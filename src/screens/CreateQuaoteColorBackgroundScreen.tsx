@@ -22,7 +22,9 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
   const onDone = async () => {
     navigation.navigate('CreateQuoteColor', {
       quoteText: route.params.quoteText,
-      backgroundColor: `rgba(${r},${g},${b},${a})`,
+      backgroundColor: `rgba(${r.toFixed(1)},${g.toFixed(1)},${b.toFixed(
+        1,
+      )},${a.toFixed(1)})`,
     });
   };
   return (
@@ -41,7 +43,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={r}
-          onValueChange={value => setR(value as number)}
+          onValueChange={value => setR(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -49,7 +51,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={b}
-          onValueChange={value => setB(value as number)}
+          onValueChange={value => setB(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -57,7 +59,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={g}
-          onValueChange={value => setG(value as number)}
+          onValueChange={value => setG(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -65,7 +67,7 @@ const CreateQuoteBackgroundScreen: React.VFC<Props> = ({
         <Slider
           containerStyle={styles.slider}
           value={a}
-          onValueChange={value => setA(value as number)}
+          onValueChange={value => setA(Array.isArray(value) ? value[0] : value)}
           maximumValue={1}
           minimumValue={0}
         />

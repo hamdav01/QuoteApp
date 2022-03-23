@@ -39,12 +39,12 @@ const LoginScreen: React.VFC<Props> = ({ navigation }) => {
       try {
         setLoading(true);
         await login({ email, password });
+        setLoading(false);
       } catch (error: unknown) {
+        setLoading(false);
         if (error instanceof Error) {
           setError(error.message);
         }
-      } finally {
-        setLoading(false);
       }
     }
   };
@@ -82,6 +82,7 @@ const LoginScreen: React.VFC<Props> = ({ navigation }) => {
         onPress={() => navigation.navigate('CreateAccount')}
       />
       <Button
+        styleButton={styles.googleLogin}
         loading={loading}
         text="Google Sign-In"
         onPress={async () => {
@@ -126,6 +127,9 @@ const styles = StyleSheet.create({
   },
   noAccountButton: {
     color: '#1a73e8',
+  },
+  googleLogin: {
+    marginVertical: 24,
   },
 });
 

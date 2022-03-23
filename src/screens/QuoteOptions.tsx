@@ -11,7 +11,7 @@ const QuoteOptionsScreen: React.VFC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView edges={['left', 'right']} style={styles.root}>
       <Button
-        text="Quote Habit"
+        text="Create Quote"
         styleButton={styles.button}
         onPress={() => navigation.navigate('CreateQuote')}
       />

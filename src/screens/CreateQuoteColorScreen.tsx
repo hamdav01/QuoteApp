@@ -49,7 +49,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={r}
-          onValueChange={value => setR(value as number)}
+          onValueChange={value => setR(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -57,7 +57,7 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={b}
-          onValueChange={value => setB(value as number)}
+          onValueChange={value => setB(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
@@ -65,13 +65,18 @@ const CreateQuoteColorScreen: React.VFC<Props> = ({ route, navigation }) => {
         <Slider
           containerStyle={styles.slider}
           value={g}
-          onValueChange={value => setG(value as number)}
+          onValueChange={value => setG(Array.isArray(value) ? value[0] : value)}
           maximumValue={360}
           minimumValue={0}
         />
       </View>
       <View style={styles.fill} />
-      <Button text="Done" styleButton={styles.button} onPress={onDone} />
+      <Button
+        loading={loading}
+        text="Done"
+        styleButton={styles.button}
+        onPress={onDone}
+      />
     </SafeAreaView>
   );
 };

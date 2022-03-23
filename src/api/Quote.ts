@@ -28,29 +28,33 @@ export const getRandomQuote = async (id: string) => {
   return quotes[index];
 };
 
-export const getTodayQuote = async (id: string): Promise<QuoteType> => {
+export const getTodayQuote = async (id: string) => {
   const todaysDate = getTodaysDate();
-  const rawTodaysQuotes = await firestore()
-    .collection('Users')
-    .doc(id)
-    .collection('Quotes')
-    .where('date', '==', todaysDate)
-    .get();
-  const todaysQuote = rawTodaysQuotes.docs[0];
-  if (todaysQuote !== undefined) {
-    return {
-      id: todaysQuote.id,
-      ...(todaysQuote.data() as RawQuoteType),
-    };
+  try {
+    const rawTodaysQuotes = await firestore()
+      .collection('Users')
+      .doc(id)
+      .collection('Quotes')
+      .where('date', '==', todaysDate)
+      .get();
+    const todaysQuote = rawTodaysQuotes.docs[0];
+    if (todaysQuote !== undefined) {
+      return {
+        id: todaysQuote.id,
+        ...(todaysQuote.data() as RawQuoteType),
+      };
+    }
+    const quote = await getRandomQuote(id);
+    await firestore()
+      .collection('Users')
+      .doc(id)
+      .collection('Quotes')
+      .doc(quote.id)
+      .update({ date: todaysDate });
+    return quote;
+  } catch {
+    return null;
   }
-  const quote = await getRandomQuote(id);
-  await firestore()
-    .collection('Users')
-    .doc(id)
-    .collection('Quotes')
-    .doc(quote.id)
-    .update({ date: todaysDate });
-  return quote;
 };
 
 export const addQuote = async (id: string, quote: RawQuoteType) => {
@@ -68,6 +72,19 @@ export const deleteQuote = async (id: string, quoteId: string) => {
     .collection('Quotes')
     .doc(quoteId)
     .delete();
+};
+
+export const updateQuote = async (
+  id: string,
+  quoteId: string,
+  text: string,
+) => {
+  return firestore()
+    .collection('Users')
+    .doc(id)
+    .collection('Quotes')
+    .doc(quoteId)
+    .update({ text });
 };
 
 export const subscribeToQuoteChange = (
